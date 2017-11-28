@@ -6,12 +6,11 @@
 
 #define DEBUG
 
-void debug(const char *format, ...)
-{
-	#ifdef DEBUG
-		printf(format);
-	#endif
-}
+#ifdef DEBUG
+	#define debug(format) printf(format);
+#else
+	#define debug(format)
+#endif
 
 //TODO change names like filelen to file_len or something similar
 void read_from_file(char* file_name, char** buffer, long* file_len)
