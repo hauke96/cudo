@@ -14,12 +14,11 @@ void debug(const char *format, ...)
 }
 
 //TODO change names like filelen to file_len or something similar
-//TODO rename function to "read_from_file"
-void open_file(char* filename, char** buffer, long* filelen)
+void read_from_file(char* file_name, char** buffer, long* filelen)
 {
 	FILE *fileptr;
 
-	fileptr = fopen(filename, "rb"); 	// Open the file in binary mode
+	fileptr = fopen(file_name, "rb"); 	// Open the file in binary mode
 	fseek(fileptr, 0, SEEK_END);		// Jump to the end of the file
 	*filelen = ftell(fileptr);			// Get the current byte offset in file
 	rewind(fileptr);					// Jump back to the beginning
@@ -48,8 +47,8 @@ void print_binary_file(char *filename_1, char *filename_2, char *output_file)
 	long  dest_filelen;		// length of the longest file
 
  	//TODO consider to extract the read-calls
-	open_file(filename_1, &buffer[0], &filelen[0]);
-	open_file(filename_2, &buffer[1], &filelen[1]);
+	read_from_file(filename_1, &buffer[0], &filelen[0]);
+	read_from_file(filename_2, &buffer[1], &filelen[1]);
 
 	dest_filelen = filelen[0] > filelen[1] ? filelen[0] : filelen[1];
 
