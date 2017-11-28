@@ -1,5 +1,17 @@
 #include<stdio.h>
 
-void print_binary_file(char **buffer, long filelen, char *dest_buffer, long dest_file_len);
+void print_binary_file
+(
+	char *src_buffer_original,
+	char *src_buffer_to_compare,
+	long amount_chars_to_compare,
+	char *dest_buffer,
+	long dest_file_len
+);
 
-void run_comparison(char *input_file_1, char *input_file_2, char *output_file);
+void run_comparison
+(
+	char *input_file_1,
+	char *input_file_2,
+	char *output_file
+);

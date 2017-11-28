@@ -37,13 +37,13 @@ void write_to_file(char *file_name, char *buffer, long file_len)
 	fclose(file_ptr);
 }
 
-void print_binary_file(char **buffer, long amount_chars_to_compare, char *dest_buffer, long dest_file_len)
+void print_binary_file(char *src_buffer_original, char *src_buffer_to_compare, long amount_chars_to_compare, char *dest_buffer, long dest_file_len)
 {
 	for (int i = 0; i < amount_chars_to_compare; i++)
 	{
 		if (i < dest_file_len)
 		{
-			dest_buffer[i] = buffer[0][i] ^ buffer[1][i];
+			dest_buffer[i] = src_buffer_original[i] ^ src_buffer_to_compare[i];
 		}
 	}
 }
@@ -72,7 +72,7 @@ void run_comparison(char *input_file_1, char *input_file_2, char *output_file)
 		amount_chars_to_compare = filelen[0];
 	}
 
-	print_binary_file(buffer, amount_chars_to_compare, dest_buffer, dest_file_len);
+	print_binary_file(buffer[0], buffer[1], amount_chars_to_compare, dest_buffer, dest_file_len);
 
 	write_to_file(output_file, dest_buffer, dest_file_len);
 }
