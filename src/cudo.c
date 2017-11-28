@@ -18,7 +18,7 @@ void read_from_file(char* file_name, char** buffer, long* file_len)
 
 	file_ptr = fopen(file_name, "rb"); 	// Open the file in binary mode
 	fseek(file_ptr, 0, SEEK_END);		// Jump to the end of the file
-	*file_len = ftell(file_ptr);			// Get the current byte offset in file
+	*file_len = ftell(file_ptr);		// Get the current byte offset in file
 	rewind(file_ptr);					// Jump back to the beginning
 
 	*buffer = (char *)calloc(*file_len + 1, sizeof(char)); // file length + \0
@@ -37,16 +37,11 @@ void write_to_file(char *file_name, char *buffer, long file_len)
 	fclose(file_ptr);
 }
 
-void print_binary_file(char *filename_1, char *filename_2, char *output_file)
+void print_binary_file(char **buffer, long *filelen, char *output_file)
 {
-	char *buffer[2];
-	long  filelen[2];
+	//char *buffer[2];
 	char *dest_buffer;
 	long  dest_filelen;		// length of the longest file
-
- 	//TODO consider to extract the read-calls
-	read_from_file(filename_1, &buffer[0], &filelen[0]);
-	read_from_file(filename_2, &buffer[1], &filelen[1]);
 
 	dest_filelen = filelen[0] > filelen[1] ? filelen[0] : filelen[1];
 
@@ -66,6 +61,9 @@ void print_binary_file(char *filename_1, char *filename_2, char *output_file)
 
 int main (int argc, char **argv)
 {
+	char *buffer[2];
+	long  filelen[2];
+
 	 /* We check !=4 because argument 0 is the path of the application  */
 	if (argc != 4)
 	{
@@ -77,7 +75,10 @@ int main (int argc, char **argv)
 		return 1;
 	}
 
-	print_binary_file(argv[1], argv[2], argv[3]);
+	read_from_file(argv[1], &buffer[0], &filelen[0]);
+	read_from_file(argv[2], &buffer[1], &filelen[1]);
+
+	print_binary_file(buffer, filelen, argv[3]);
 
 	return 0;
 }
