@@ -12,7 +12,6 @@
 	#define debug(format)
 #endif
 
-//TODO change names like filelen to file_len or something similar
 void read_from_file(char* file_name, char** buffer, long* file_len)
 {
 	FILE *file_ptr;
