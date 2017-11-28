@@ -7,7 +7,7 @@ LFLAGS = $(CFLAGS)
 LIBS   = -lm
 
 TGTS = bin/cudo
-OBJS = obj/cudo.o
+OBJS = obj/cudo.o obj/io.o
 
 # Targets...
 all: cudo
