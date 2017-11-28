@@ -48,7 +48,7 @@ void print_binary_file(char **buffer, long amount_chars_to_compare, char *dest_b
 	}
 }
 
-int main (int argc, char **argv)
+void run_comparison(char *input_file_1, char *input_file_2, char *output_file)
 {
 	char *buffer[2];
 	long  filelen[2];
@@ -56,19 +56,8 @@ int main (int argc, char **argv)
 	long  dest_file_len;		// length of the longest file
 	long  amount_chars_to_compare;
 
-	 /* We check !=4 because argument 0 is the path of the application  */
-	if (argc != 4)
-	{
-		printf("%s\n\n%s\n%s\n%s\n",
-			"There must be exactly three arguments",
-			"	original file path",
-			"	file to compare",
-			"	output file");
-		return 1;
-	}
-
-	read_from_file(argv[1], &buffer[0], &filelen[0]);
-	read_from_file(argv[2], &buffer[1], &filelen[1]);
+	read_from_file(input_file_1, &buffer[0], &filelen[0]);
+	read_from_file(input_file_2, &buffer[1], &filelen[1]);
 
 	if(filelen[0] > filelen[1])
 	{
@@ -85,7 +74,23 @@ int main (int argc, char **argv)
 
 	print_binary_file(buffer, amount_chars_to_compare, dest_buffer, dest_file_len);
 
-	write_to_file(argv[3], dest_buffer, dest_file_len);
+	write_to_file(output_file, dest_buffer, dest_file_len);
+}
+
+int main (int argc, char **argv)
+{
+	 /* We check !=4 because argument 0 is the path of the application  */
+	if (argc != 4)
+	{
+		printf("%s\n\n%s\n%s\n%s\n",
+			"There must be exactly three arguments",
+			"	original file path",
+			"	file to compare",
+			"	output file");
+		return 1;
+	}
+
+	run_comparison(argv[1], argv[2], argv[3]);
 
 	return 0;
 }
