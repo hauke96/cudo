@@ -37,9 +37,9 @@ void write_to_file(char *file_name, char *buffer, long file_len)
 	fclose(file_ptr);
 }
 
-void print_binary_file(char **buffer, long *filelen, char *dest_buffer, long dest_file_len)
+void print_binary_file(char **buffer, long amount_chars_to_compare, char *dest_buffer, long dest_file_len)
 {
-	for (int i = 0; i < filelen[1]; i++)
+	for (int i = 0; i < amount_chars_to_compare; i++)
 	{
 		if (i < dest_file_len)
 		{
@@ -54,6 +54,7 @@ int main (int argc, char **argv)
 	long  filelen[2];
 	char *dest_buffer;
 	long  dest_file_len;		// length of the longest file
+	long  amount_chars_to_compare;
 
 	 /* We check !=4 because argument 0 is the path of the application  */
 	if (argc != 4)
@@ -69,10 +70,20 @@ int main (int argc, char **argv)
 	read_from_file(argv[1], &buffer[0], &filelen[0]);
 	read_from_file(argv[2], &buffer[1], &filelen[1]);
 
-	dest_file_len = filelen[0] > filelen[1] ? filelen[0] : filelen[1];
-	dest_buffer = calloc(dest_file_len, sizeof(char));
+	if(filelen[0] > filelen[1])
+	{
+		dest_file_len = filelen[0];
+		dest_buffer = buffer[0];
+		amount_chars_to_compare = filelen[1];
+	}
+	else
+	{
+		dest_file_len = filelen[1];
+		dest_buffer = buffer[1];
+		amount_chars_to_compare = filelen[0];
+	}
 
-	print_binary_file(buffer, filelen, dest_buffer, dest_file_len);
+	print_binary_file(buffer, amount_chars_to_compare, dest_buffer, dest_file_len);
 
 	write_to_file(argv[3], dest_buffer, dest_file_len);
 
